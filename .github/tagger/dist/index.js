@@ -9699,7 +9699,7 @@ async function run() {
     var payload = github.context.payload
     var msg = payload.head_commit.message
 
-    var patt = /((?:v)?[0-9]{1,}\.[0-9]{1,}\.[0-9]{1,}(?!\-SNAPSHOT)(?:[-a-zA-Z0-9]+)?)/ // anything but snapshots
+    var patt = /((?:v)?[0-9]+\.[0-9]+\.[0-9]+(?!\-SNAPSHOT)(?:-[a-zA-Z0-9]*)?)/ // anything but snapshots
     var match = patt.exec(msg)
 
     if(match && match.length >= 2) {
@@ -9711,7 +9711,7 @@ async function run() {
 
         try {
           const data = fs.readFileSync('./pom.xml', 'utf8');
-          var patt = /\<revision\>((?:v)?[0-9]{1,}\.[0-9]{1,}\.[0-9]{1,}(?!\-SNAPSHOT)(?:[-a-zA-Z0-9]+)?)\<\/revision\>.*:TAGGER:.*/ // anything but snapshots from the <revision> property in the parent pom
+          var patt = /.*\<revision\>((?:v)?[0-9]+\.[0-9]+\.[0-9]+(?!\-SNAPSHOT)(?:-[a-zA-Z0-9]*)?)\<\/revision\>.*:TAGGER:.*/ // anything but snapshots from the <revision> property in the parent pom
 
           var match = patt.exec(data)
 
