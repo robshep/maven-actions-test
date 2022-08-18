@@ -24,25 +24,21 @@ async function run() {
 
     var tag = match[1]
 
-    console.log("Taggin with: " + tag)
+    console.log("Tagging with: " + tag)
 
-    /*
     const octokit = github.getOctokit(process.env.GITHUB_TOKEN)
 
-    // You can also pass in additional options as a second parameter to getOctokit
-    // const octokit = github.getOctokit(myToken, {userAgent: "MyActionVersion1"});
+    var owner = process.env.GITHUB_REPOSITORY.split('/')[0]
+    var repo = process.env.GITHUB_REPOSITORY.split('/')[1]
 
-    const { data: pullRequest } = await octokit.rest.pulls.get({
-        owner: 'octokit',
-        repo: 'rest.js',
-        pull_number: 123,
-        mediaType: {
-          format: 'diff'
-        }
+    const resp = await octokit.rest.git.createRef({
+         owner: owner,
+         repo: repo,
+         ref: "refs/tags/" + tag,
+         sha: process.env.GITHUB_SHA
     });
 
-    console.log(pullRequest);
-    */
+    console.log(resp);
 }
 
 run();
