@@ -15,7 +15,7 @@
     </modules>
 
     <properties>
-        <revision>1.0.8</revision>
+        <revision>1.0.9</revision> <!-- KEEP THIS COMMENT ON THIS LINE :TAGGER: -->
         <main.basedir>${project.basedir}</main.basedir>
         <java.version>11</java.version>
         <os-maven-plugin.version>1.7.0</os-maven-plugin.version>

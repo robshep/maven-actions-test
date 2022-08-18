@@ -9669,27 +9669,9 @@ var __webpack_exports__ = {};
 //
 const core = __nccwpck_require__(7111);
 const github = __nccwpck_require__(7889);
+const fs = __nccwpck_require__(7147);
 
-async function run() {
-    // This should be a token with access to your repository scoped in as a secret.
-    // The YML workflow will need to set myToken with the GitHub Secret Token
-    // myToken: ${{ secrets.GITHUB_TOKEN }}
-    // https://help.github.com/en/actions/automating-your-workflow-with-github-actions/authenticating-with-the-github_token#about-the-github_token-secret
-    console.log(process.env.GITHUB_TOKEN, process.env.GITHUB_REPOSITORY, process.env.GITHUB_SHA)
-
-    var payload = github.context.payload
-    var msg = payload.head_commit.message
-
-    var patt = /((?:v)?[0-9]{1,}\.[0-9]{1,}\.[0-9]{1,}(?!\-SNAPSHOT)(?:[-a-zA-Z0-9]+)?)/ // anything but snapshots
-    var match = patt.exec(msg)
-
-    if(!match || match.length < 2) {
-        console.log("Not tagging - no match: " + msg)
-        return
-    }
-
-    var tag = match[1]
-
+async function doTag(tag) {
     console.log("Tagging with: " + tag)
 
     const octokit = github.getOctokit(process.env.GITHUB_TOKEN)
@@ -9705,6 +9687,44 @@ async function run() {
     });
 
     console.log(resp);
+}
+
+async function run() {
+    // This should be a token with access to your repository scoped in as a secret.
+    // The YML workflow will need to set myToken with the GitHub Secret Token
+    // myToken: ${{ secrets.GITHUB_TOKEN }}
+    // https://help.github.com/en/actions/automating-your-workflow-with-github-actions/authenticating-with-the-github_token#about-the-github_token-secret
+    console.log(process.env.GITHUB_TOKEN, process.env.GITHUB_REPOSITORY, process.env.GITHUB_SHA)
+
+    var payload = github.context.payload
+    var msg = payload.head_commit.message
+
+    var patt = /((?:v)?[0-9]{1,}\.[0-9]{1,}\.[0-9]{1,}(?!\-SNAPSHOT)(?:[-a-zA-Z0-9]+)?)/ // anything but snapshots
+    var match = patt.exec(msg)
+
+    if(match && match.length >= 2) {
+        var tag = match[1]
+        await doTag(tag)
+    }
+    else {
+        console.log("No tag in commit message - no match: " + msg + " -- trying parent pom revision property")
+
+        try {
+          const data = fs.readFileSync('./pom.xml', 'utf8');
+          var patt = /\<revision\>((?:v)?[0-9]{1,}\.[0-9]{1,}\.[0-9]{1,}(?!\-SNAPSHOT)(?:[-a-zA-Z0-9]+)?)\<\/revision\>.*:TAGGER:.*/ // anything but snapshots from the <revision> property in the parent pom
+
+          var match = patt.exec(msg)
+
+          if(match && match.length >= 2) {
+              var tag = match[1]
+              await doTag(tag)
+          } else {
+            console.log("No pattern matched in parent pom.xml - not tagging")
+          }
+        } catch (err) {
+          console.error(err);
+        }
+    }
 }
 
 run();
