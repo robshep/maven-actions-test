@@ -22,7 +22,7 @@
     </modules>
 
     <properties>
-        <revision>1.0.2-SNAPSHOT</revision>
+        <revision>1.0.3</revision>
         <main.basedir>${project.basedir}</main.basedir>
         <java.version>11</java.version>
         <os-maven-plugin.version>1.7.0</os-maven-plugin.version>
@@ -35,9 +35,9 @@
         <dependencies>
 			<!-- https://mvnrepository.com/artifact/junit/junit -->
 			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>4.13.2</version>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter</artifactId>
+				<version>5.9.0</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>
@@ -130,6 +130,17 @@
                         </lifecycleMappingMetadata>
                     </configuration>
                 </plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.10.1</version>
+					<configuration>
+						<encoding>UTF-8</encoding>
+						<source>${java.version}</source>
+						<target>${java.version}</target>
+					</configuration>
+				</plugin>
             </plugins>
         </pluginManagement>
     </build>

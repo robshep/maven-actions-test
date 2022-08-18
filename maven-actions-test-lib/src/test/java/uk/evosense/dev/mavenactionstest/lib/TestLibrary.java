@@ -1,12 +1,12 @@
 package uk.evosense.dev.mavenactionstest.lib;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import uk.evosense.lib.mavenactionstest.lib.Library;
 
 public class TestLibrary {
 	@Test
 	public void testLibrary() {
-		Assert.assertEquals("Hello Library World", Library.getMsg());
+		Assertions.assertEquals("Hello Library World", Library.getMsg());
 	}
 }
