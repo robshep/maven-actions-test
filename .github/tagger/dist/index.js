@@ -9713,7 +9713,7 @@ async function run() {
           const data = fs.readFileSync('./pom.xml', 'utf8');
           var patt = /\<revision\>((?:v)?[0-9]{1,}\.[0-9]{1,}\.[0-9]{1,}(?!\-SNAPSHOT)(?:[-a-zA-Z0-9]+)?)\<\/revision\>.*:TAGGER:.*/ // anything but snapshots from the <revision> property in the parent pom
 
-          var match = patt.exec(msg)
+          var match = patt.exec(data)
 
           if(match && match.length >= 2) {
               var tag = match[1]
