@@ -33,7 +33,7 @@ async function run() {
     var payload = github.context.payload
     var msg = payload.head_commit.message
 
-    var patt = /((?:v)?[0-9]+\.[0-9]+\.[0-9]+(?!\-SNAPSHOT)(?:-[a-zA-Z0-9]*)?)/ // anything but snapshots
+    var patt = /tag:((?:v)?[0-9]+\.[0-9]+\.[0-9]+(?:-[a-zA-Z0-9]*)?)/ // prefixed with tag: for anything
     var match = patt.exec(msg)
 
     if(match && match.length >= 2) {
