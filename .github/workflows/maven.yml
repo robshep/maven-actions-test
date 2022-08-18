@@ -29,3 +29,5 @@ jobs:
     - name: Add Git Tag
       uses: ./.github/tagger # Uses an action in the local directory
       id: tagger
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
