@@ -22,7 +22,7 @@
     </modules>
 
     <properties>
-        <revision>1.0.3</revision>
+        <revision>1.0.4</revision>
         <main.basedir>${project.basedir}</main.basedir>
         <java.version>11</java.version>
         <os-maven-plugin.version>1.7.0</os-maven-plugin.version>
@@ -77,30 +77,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>net.revelc.code.formatter</groupId>
-                <artifactId>formatter-maven-plugin</artifactId>
-                <version>2.20.0</version>
-                <configuration>
-                    <directories>
-                        <directory>${project.build.sourceDirectory}</directory>
-                        <directory>${project.build.directory}/generated-sources</directory>
-                    </directories>
-                    <encoding>utf-8</encoding>
-                    <configFile>${main.basedir}/formatter.xml</configFile>
-                    <compilerSource>${java.version}</compilerSource>
-                    <compilerCompliance>${java.version}</compilerCompliance>
-                    <compilerTargetPlatform>${java.version}</compilerTargetPlatform>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>format</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
         </plugins>
         <pluginManagement>
             <plugins>
